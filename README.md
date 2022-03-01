@@ -4,6 +4,10 @@
   <img src="docs/middleware-gopher.png" width="360" alt="Middleware Gopher">
 </p>
 
+<p align="center">
+	<img src="https://github.com/William9923/httpmiddleware/actions/workflows/runner.yml/badge.svg" alt="Testing" />
+</p>
+
 HTTPMiddleware is a simple middleware wrapper library to make creating & attaching middleware to HTTP request router easier (for [httprouter](github.com/julienschmidt/httprouter) lib)  
 
 In contrast to the usual style that wrap one by one like being proposed in [Gorilla handler](https://github.com/gorilla/handlers) which recommended by the httprouter lib when creating middleware, we setup the middleware first then wrap it to the http handler.
