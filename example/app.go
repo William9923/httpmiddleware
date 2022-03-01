@@ -31,10 +31,16 @@ func Logging(h httprouter.Handle) httprouter.Handle {
 
 func Authentication(fn httprouter.Handle) httprouter.Handle {
 	return func(w http.ResponseWriter, req *http.Request, p httprouter.Params) {
+		logger := log.Default()
+		logger.Println("start authentication...")
+		fn(w, req, p)
+	}
+}
 
-		ctx := req.Context()
-
-		req = req.WithContext(ctx)
+func Authorization(fn httprouter.Handle) httprouter.Handle {
+	return func(w http.ResponseWriter, req *http.Request, p httprouter.Params) {
+		logger := log.Default()
+		logger.Println("checking permission...")
 		fn(w, req, p)
 	}
 }
@@ -43,6 +49,8 @@ func main() {
 
 	middlewares := httpmiddleware.New()
 	middlewares.Use(Logging)
+	middlewares.Use(Authentication)
+	middlewares.Use(Authorization)
 
 	router := httprouter.New()
 	router.GET("/", middlewares.Wrap(Index))
