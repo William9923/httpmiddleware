@@ -1,0 +1,76 @@
+#!/bin/sh
+
+echo "executing pre-commit hooks checks with args [$@]"
+
+#######################
+# Linter & Formatting #
+#######################
+echo "executing formatter & linter..."
+
+printError() {
+      error=$1
+      printf "\033[41m$error\033[0m \033[0;30m\033[41mFAILURE!\033[0m\n"
+}
+
+checkCommand () {
+      # to check if a command exists
+      commandName=$1
+      CMD=$(command -v $commandName)
+      if [[ ! -x "$CMD" ]]; then
+            printError "Please Install $commandName for checks"
+            exit 1
+      fi
+}
+
+printSuccess () {
+      successMsg=$1
+      printf "\t\033[32m$1\033[0m \033[0;30m\033[42mpassed!\033[0m\n"
+}
+
+runCommand () {
+      cmd=$1
+      filename=$2
+      index=$3
+      executedCmd="$cmd $filename"
+      $($executedCmd)
+      
+      if [[ $? -ne 0 ]]; then
+            printError "$executedCmd"
+            check=false
+      else
+            printSuccess "$executedCmd"
+      fi
+}
+
+
+check=true
+
+# staged files (not deleted ones)
+staged_files=$(git diff --diff-filter=d --name-only --staged | grep .go)
+
+no_staged_files=$(echo -n $staged_files | wc -l)
+
+if [[ $no_staged_files -ne 0 ]];
+then
+      echo "files that are staged (excluding deleted ones): "
+      echo "$staged_files"
+
+      for FILE in $staged_files
+            do
+                  # Run goimports on the staged file
+                  runCommand "goimports -w" $FILE
+
+                  # gofmt prettify your code as you commit
+                  runCommand "gofmt -w" $FILE
+                  # stage that file again (just in case it's prettified)
+                  git add $FILE
+            done
+fi
+
+if [ "$check" = true ]; 
+then
+      echo 'lint check passed'
+else 
+      echo "lint check failed"
+      exit 1
+fi

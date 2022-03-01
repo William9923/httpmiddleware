@@ -1,0 +1,10 @@
+#!/bin/sh
+
+echo "executing post-checkout branch hooks checks with args [$@]"
+
+#######################
+# Dependencies issues #
+#######################
+go mod tidy
+go mod vendor
+echo "finish processing dependencies issue..."
