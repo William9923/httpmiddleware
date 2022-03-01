@@ -36,11 +36,6 @@ graph LR
 
 1. Decorator style (taken from gorilla/handlers repo)
 ```go
-import (
-    "net/http"
-    "github.com/gorilla/handlers"
-)
-
 func main() {
     r := http.NewServeMux()
 
@@ -54,6 +49,22 @@ func main() {
 ```
 2. Chain of responsibility style
 ```go
+func main() {
+
+    // Group certain middleware
+	middlewares := httpmiddleware.New()
+	middlewares.Use(Logging)
+	middlewares.Use(Authentication)
+	middlewares.Use(Authorization)
+
+    // Wrap router based on middleware
+	router := httprouter.New()
+	router.GET("/", middlewares.Wrap(Index))
+	router.GET("/ping", ping)
+
+	log.Fatal(http.ListenAndServe(":8080", router))
+}
+
 ```
 
 There are no exact and correct way on how to setup the middleware, feel free to pick based on your preference
