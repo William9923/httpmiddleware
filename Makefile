@@ -24,3 +24,6 @@ dep:
 
 setup:
 	sh ./setup.sh
+
+run-demo:
+	go run example/app.go
