@@ -1,13 +1,17 @@
-# Httpmiddleware
+<p align="center">
+    <img src="docs/middleware-gopher.png" width="360" alt="Middleware Gopher">
+    <h2 align="center">Httpmiddleware</h2>
+</p> 
+<p align="center">A httprouter middleware wrapper</b></p>
 
 <p align="center">
-  <img src="docs/middleware-gopher.png" width="360" alt="Middleware Gopher">
-</p>
-
-<p align="center">
-	<img src="https://github.com/William9923/httpmiddleware/actions/workflows/runner.yml/badge.svg" alt="Testing" />
-</p>
-
+   <img src="https://github.com/William9923/httpmiddleware/actions/workflows/runner.yml/badge.svg" alt="Testing" />
+    <a href="https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=william9923/willz-home&amp;utm_campaign=Badge_Grade">
+        <img src="https://api.codacy.com/project/badge/Grade/a789dbf2fb2045afaf67727b05fbbc68"/>
+    </a>
+    <img alt="GitHub" src="https://img.shields.io/github/license/william9923/httpmiddleware" />
+    
+  </p>
 HTTPMiddleware is a simple middleware wrapper library to make creating & attaching middleware to HTTP request router easier (for [httprouter](github.com/julienschmidt/httprouter) lib)  
 
 In contrast to the usual style that wrap one by one like being proposed in [Gorilla handler](https://github.com/gorilla/handlers) which recommended by the httprouter lib when creating middleware, we setup the middleware first then wrap it to the http handler.
@@ -38,7 +42,7 @@ graph LR
     end 
 ```
 
-1. Decorator style (taken from gorilla/handlers repo)
+1. Decorator style (taken from `gorilla/handlers` repo)
 ```go
 func main() {
     r := http.NewServeMux()
@@ -51,7 +55,7 @@ func main() {
     http.ListenAndServe(":8000", handlers.CompressHandler(r))
 }
 ```
-2. Chain of responsibility style
+2. Chain of responsibility style (can refer to `example\app.go`)
 ```go
 func main() {
 
